@@ -1,0 +1,21 @@
+local player = game.Players.LocalPlayer
+local userInputService = game:GetService("UserInputService")
+
+local jumpEnabled = true
+
+local function onJumpRequest()
+    if jumpEnabled then
+        local character = player.Character
+        if character and character:FindFirstChildOfClass("Humanoid") then
+            character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+    end
+end
+
+userInputService.JumpRequest:Connect(onJumpRequest)
+
+userInputService.InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.UserInputType == Enum.UserInputType.Touch then
+        onJumpRequest()
+    end
+end)
